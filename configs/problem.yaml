@@ -1,0 +1,30 @@
+project:
+  name: temporal-failure-prediction
+  version: v1
+
+service:
+  mode: single_service
+
+failure_definition:
+  type: error_rate
+  threshold: 0.05
+  duration_minutes: 2
+
+windows:
+  input_window_minutes: 10
+  prediction_horizon_minutes: 5
+
+sampling:
+  interval_minutes: 1
+
+features:
+  - request_count
+  - error_rate
+  - p50_latency
+  - p95_latency
+  - p99_latency
+  - cpu_usage
+  - memory_usage
+  - network_in
+  - network_out
+  - pod_restarts
