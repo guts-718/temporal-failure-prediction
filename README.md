@@ -135,4 +135,17 @@ Observations:
 - Temporal aggregates alone are insufficient thus motivating sequence models (LSTM/GRU).
 
 
+## Sequence Model Results
+
+| Model | Precision | Recall | F1 |
+|------|----------|-------|----|
+| LSTM | 0.142 | 0.303 | 0.194 |
+| GRU  | 0.123 | 0.258 | 0.167 |
+
+Observations:
+- LSTM achieves the highest recall among all models.
+- Sequence models significantly improve early failure detection compared to classical baselines.
+- LSTM outperforms GRU on this dataset.
+
+
 
