@@ -94,5 +94,45 @@ trend based heuristics) are used for comparison.
 
 ---
 
+## Running the Data Pipeline
+
+From the project root:
+
+```bash
+# 1. Generate synthetic metrics
+python -m data.synthetic.generate_data
+
+# 2. Build sliding window dataset
+python -m src.data.build_dataset
+
+# 3. Normalize using train only stats
+python -m src.data.normalize.py
+
+# 4. Run the baseline models
+python -m src.training.run_baselines
+
+```
+
+
+This makes your repo immediately usable.
+
+---
+
+
+## Baseline Results (Current)
+
+Positive sample rate (test set): ~2.7%
+
+| Model                      | Precision | Recall | F1   |
+|---------------------------|-----------|--------|------|
+| Rule-based threshold      | 0.129     | 0.275  | 0.176 |
+| Snapshot Logistic Reg     | 0.781     | 0.140  | 0.238 |
+| Window Aggregated LogReg  | 0.786     | 0.124  | 0.214 |
+
+Observations:
+- Rule-based approach has higher recall but poor precision.
+- Logistic regression models are conservative with high precision but low recall.
+- Temporal aggregates alone are insufficient thus motivating sequence models (LSTM/GRU).
+
 
 

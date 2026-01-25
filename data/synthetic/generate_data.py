@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from datetime import timedelta
+from pathlib import Path
 
 # Configs
 SEED = 42
@@ -11,11 +12,13 @@ FAILURE_ERROR_THRESHOLD = 0.05
 FAILURE_DURATION_MINUTES = 2
 
 # Target =  approx 1 failure every 3–8 hours
-STRESS_INCREASE_PROB = 0.02
+STRESS_INCREASE_PROB = 0.03
 STRESS_DECAY_PROB = 0.05
-STRESS_SPIKE_PROB = 0.003
+STRESS_SPIKE_PROB = 0.006
 RECOVERY_DECAY_RATE = 0.15
 
+RAW_DATA_DIR = Path("./data/synthetic")
+OUT_DIR = Path("./data/processed")
 np.random.seed(SEED)
 
 # Helper
@@ -111,8 +114,8 @@ failures_df = pd.DataFrame(
     columns=["timestamp", "failure_active"]
 )
 
-metrics_df.to_csv("metrics.csv", index=False)
-failures_df.to_csv("failures.csv", index=False)
+metrics_df.to_csv(RAW_DATA_DIR/"metrics.csv", index=False)
+failures_df.to_csv(RAW_DATA_DIR/"failures.csv", index=False)
 
 print("Synthetic data generated.")
 print(f"Total minutes: {minutes}")
