@@ -149,3 +149,12 @@ Observations:
 
 
 
+## Early Warning Evaluation (LSTM)
+
+Average early warning time: ~2.2 minutes  
+Median early warning time: 1 minute  
+
+This indicates the model often predicts failures several minutes before the failure condition is triggered.
+
+
+
