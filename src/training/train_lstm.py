@@ -11,6 +11,7 @@ from src.models.lstm import LSTMModel
 BATCH_SIZE = 64
 EPOCHS = 25
 LR = 1e-3
+# input_size=19
 
 DATA_DIR = Path("data/processed")
 
@@ -41,7 +42,7 @@ test_loader = DataLoader(test_ds, batch_size=BATCH_SIZE)
 # MODEL 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-model = LSTMModel(input_size=10).to(device)
+model = LSTMModel(input_size=19).to(device)
 
 # class weight
 pos = train_ds.y.sum()

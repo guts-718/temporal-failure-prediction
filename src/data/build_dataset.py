@@ -43,7 +43,17 @@ num_rows = len(df)
 
 for t in range(INPUT_WINDOW - 1, num_rows - PRED_HORIZON):
     # input window [t-9 , t-8, ... t]
-    window = df.loc[t - INPUT_WINDOW + 1 : t, FEATURE_COLUMNS].values
+    base = df.loc[t - INPUT_WINDOW + 1 : t, FEATURE_COLUMNS].values
+
+    # compute deltas
+    deltas = np.zeros_like(base)
+    deltas[1:] = base[1:] - base[:-1]
+
+    # drop delta for pod_restarts (last column)
+    deltas = deltas[:, :-1]
+
+    window = np.concatenate([base, deltas], axis=1)
+
 
     # label = any failure occurance in [t+1 ... t+5]
     future_failures = df.loc[t + 1 : t + PRED_HORIZON, "failure_active"]

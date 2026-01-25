@@ -191,3 +191,39 @@ Observations:
 - This suggests the model is not primarily capacity limited, and that feature representation is likely the main bottleneck.
 
 This motivates us to explore richer input features rather than deeper or wider architectures.
+
+
+
+
+## Delta / Trend Feature Augmentation
+
+We augmented each timestep with delta (trend) features:
+
+delta_feature = current_value − previous_value
+
+Deltas were added for all metrics except pod_restarts, increasing the input dimensionality from 10 to 19 features.
+
+### Effect on Baselines
+
+| Model | Precision | Recall | F1 |
+|-----|----------|-------|----|
+| Snapshot Logistic Regression | 0.892 | 0.185 | 0.307 |
+| Window Aggregated LogReg | 0.842 | 0.180 | 0.296 |
+
+### Effect on LSTM
+
+LSTM (64 hidden units, 19 features):
+
+- Precision: 0.214  
+- Recall: 0.236  
+- F1: 0.225  
+- Avg Early Warning Time: ~1.76 minutes  
+- Median Early Warning Time: 1 minute  
+
+### Observations
+
+- Delta features significantly improve all classical baselines.
+- LSTM precision and F1 improve substantially compared to the raw-feature setting.
+- Feature representation has a larger impact on performance than increasing model capacity and depth.
+- Sequence models still remain useful for producing calibrated probabilities and early warning timing, even when classical models are achieving strong F1.
+

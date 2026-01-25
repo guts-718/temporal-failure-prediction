@@ -11,7 +11,7 @@ RAW_DIR = Path("data/synthetic")
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 #  LOAD MODEL 
-model = LSTMModel(input_size=10)
+model = LSTMModel(input_size=19)
 model.load_state_dict(torch.load("lstm.pt", map_location=DEVICE))
 model.to(DEVICE)
 model.eval()

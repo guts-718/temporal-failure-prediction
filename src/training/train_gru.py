@@ -10,6 +10,7 @@ from src.models.gru import GRUModel
 BATCH_SIZE = 64
 EPOCHS = 25
 LR = 1e-3
+input_size=19
 
 DATA_DIR = Path("data/processed")
 
@@ -19,14 +20,14 @@ class FailureDataset(Dataset):
         data = np.load(DATA_DIR / f"{split}_norm.npz")
         self.X = torch.tensor(data["X"], dtype=torch.float32)
         self.y = torch.tensor(data["y"], dtype=torch.float32)
-        self.timestamps = data["timestamps"]
+        # self.timestamps = data["timestamps"]
 
 
     def __len__(self):
         return len(self.X)
 
     def __getitem__(self, idx):
-        return self.X[idx], self.y[idx], self.timestamps[idx]
+        return self.X[idx], self.y[idx]
 
 
 train_ds = FailureDataset("train")
@@ -40,7 +41,7 @@ test_loader = DataLoader(test_ds, batch_size=BATCH_SIZE)
 #  MODEL 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-model = GRUModel(input_size=10).to(device)
+model = GRUModel(input_size).to(device)
 
 pos = train_ds.y.sum()
 neg = len(train_ds) - pos
@@ -56,7 +57,7 @@ def evaluate(loader):
     labels = []
 
     with torch.no_grad():
-        for X, y, ts in loader:
+        for X, y in loader:
             X, y = X.to(device), y.to(device)
             logits = model(X)
             probs = torch.sigmoid(logits)
@@ -82,7 +83,7 @@ def early_warning_time(loader):
     times = []
 
     with torch.no_grad():
-        for X, y, ts in loader:
+        for X, y in loader:
             X = X.to(device)
             logits = model(X)
             probs = torch.sigmoid(logits)
@@ -103,7 +104,7 @@ for epoch in range(1, EPOCHS + 1):
     model.train()
     total_loss = 0
 
-    for X, y,ts in train_loader:
+    for X, y in train_loader:
         X, y = X.to(device), y.to(device)
         optimizer.zero_grad()
         logits = model(X)
