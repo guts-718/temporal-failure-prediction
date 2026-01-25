@@ -174,3 +174,20 @@ Observations:
 - The model exposes a controllable precision recall tradeoff, allowing selection of an operating point based on system requirements.
 
 
+
+## Larger LSTM Capacity Experiment
+
+We evaluated whether increasing model capacity improves performance by doubling the LSTM hidden size from 64 to 128 units.
+
+LSTM (128 hidden units) test results:
+
+- Precision: 0.127  
+- Recall: 0.270  
+- F1: 0.173  
+
+Observations:
+- Performance is similar to the smaller LSTM.
+- No consistent improvement in recall, precision, or early-warning time.
+- This suggests the model is not primarily capacity limited, and that feature representation is likely the main bottleneck.
+
+This motivates us to explore richer input features rather than deeper or wider architectures.
