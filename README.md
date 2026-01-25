@@ -156,5 +156,21 @@ Median early warning time: 1 minute
 
 This indicates the model often predicts failures several minutes before the failure condition is triggered.
 
+## Threshold Sweep (LSTM)
+
+To analyze the precision–recall–early-warning tradeoff, we evaluated the trained LSTM using multiple decision thresholds.
+
+| Threshold | Precision | Recall | F1   | Avg Early Warning (min) |
+|----------|-----------|--------|------|--------------------------|
+| 0.20 | 0.056 | 0.489 | 0.100 | 2.31 |
+| 0.30 | 0.062 | 0.466 | 0.109 | 2.25 |
+| 0.40 | 0.066 | 0.449 | 0.116 | 2.23 |
+| 0.50 | 0.070 | 0.433 | 0.120 | 2.21 |
+| 0.60 | 0.075 | 0.410 | 0.126 | 2.14 |
+
+Observations:
+- Lower thresholds increase recall and early warning time at the cost of precision.
+- Higher thresholds improve precision but miss more failures.
+- The model exposes a controllable precision recall tradeoff, allowing selection of an operating point based on system requirements.
 
 
